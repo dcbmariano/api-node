@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualização da API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            text-align: center;
+            margin: 20px;
+        }
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th,td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th{
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Lista de produtos – API</h1>
+
+    <table id="tabela-produtos" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-produtos-corpo"></tbody>
+    </table>
+
+    <script>
+        // função que formata valores em reais (R$)
+        function formata_valor(valor) {
+            return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // consumindo a API usando o comando fetch
+        fetch('http://localhost:8001/produtos')
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('tabela-produtos');
+                const tbody = document.getElementById('tabela-produtos-corpo');
+                tbody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
+
+                data.forEach(produto => {
+                    const row = `<tr>
+                        <td>${produto.id}</td>
+                        <td>${produto.nome}</td>                        
+                        <td>${formata_valor(produto.preco)}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+
+                table.style.display = 'table'; // Mostra a tabela
+            })
+            .catch(error => console.error('Erro ao buscar produtos:', error));
+    </script>
+
+</body>
+
+</html>
