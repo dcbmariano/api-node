@@ -24,4 +24,6 @@ Requer Node.js v22 ou superior instalado.
 
 ## Documentação 
 
-Para acessar a documentação
+Para acessar a documentação, utilize o endereço:
+
+http://localhost:8001/docs
